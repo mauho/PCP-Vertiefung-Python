@@ -45,7 +45,46 @@ The downside is that Python needs to copy the whole memory space for each proces
 
 
 ## Duck-Typing 
-Why the name? :-)
+The name "Duck Typing" comes from the phrase:
+"If it looks like a duck and quacks like a duck, it's a duck".
+
+Duck Typing is a concept related to dynamic typing. 
+The type of object is less important than the method and attributes that define it. 
+Duck Typing only checks whether a particular method or attribute is present.
+
+```python
+class Casino:
+    def lose_money(self):
+        print("next time I win!")
+
+class StockMarked:
+    def lose_money(self):
+        print("in ten years it will be up again!")
+
+class CryptoMarket:
+    def lose_money(self):
+        print("nooo i lost all my money :(")
+
+class Internet:
+    def lose_money_in_scam(self):
+        print("it was too good to be true!")
+
+class TryBecomeRich:
+    def __init__(self, methode):
+        methode.lose_money()
+
+TryBecomeRich(Casino())
+# next time I win!
+
+TryBecomeRich(StockMarked())
+# in ten years it will be up again!
+
+TryBecomeRich(CryptoMarket())
+# nooo I lost all my money :(
+
+TryBecomeRich(Internet())
+# AttributeError: 'Internet' object has no attribute 'lose_money'
+```
 
 ## Indentation
 In Python indentation is used as a structuring element to tell the Python interpreter that this code belongs together. 
