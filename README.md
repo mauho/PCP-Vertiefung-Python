@@ -48,6 +48,31 @@ The downside is that Python needs to copy the whole memory space for each proces
 Why the name? :-)
 
 ## Indentation
+In Python indentation is used as a structuring element to tell the Python interpreter that this code belongs together. 
+Many other languages use braces or keywords to mark blocks of code.
+
+It is important that the indentation is the same throughout the code block. It can be defined by the programmer. 
+Often 4 spaces are used, but it needs at least 1 space. 
+For readability it is better if the indentation is the same in all code blocks.
+
+To avoid problems you should configure the tab character in the development environment to the desired number of spaces. 
+A wrong indentation leads to an "IndentationError" and the code is not compiled.
+
+```python
+def temperature(temperature: int) -> str:
+    if temperature > -273:
+        # indention can be different in each code block
+                if temperature > 35:
+                    return "hot"
+                elif 25 < temperature < 35:
+                        return "warm"
+                elif 15 < temperature < 25:
+                            return "medium"
+                else:
+                                return "cold"
+    else:
+        return "not possible!"
+```
 
 ## List Comprehension
 PEP 202 – List Comprehensions was created on July, 13 2000 for Python 2.0. 
