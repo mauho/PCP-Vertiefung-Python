@@ -8,8 +8,8 @@ three_seconds = 3000
 six_seconds = 6000
 
 
-def do_blocking_wait(milis: float):
-    time.sleep(0.001 * milis)
+def do_blocking_wait(millis: float):
+    time.sleep(0.001 * millis)
 
 
 def long_lasting_task() -> float:
@@ -25,8 +25,8 @@ def even_longer_lasting_task() -> float:
 
 
 def last_task_future(a, b):
-    s = a.result()
-    t = b.result()
+    s = a.result()  # Blocks until a has finished
+    t = b.result()  # Blocks until b has finished
     do_blocking_wait(two_seconds)
     return str("was waiting for " + str(s + t + two_seconds) + "ms")
 
