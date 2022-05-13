@@ -1,5 +1,5 @@
 from unittest import TestCase
-from src.list_comprehension.string_join import *
+from src.list_comprehension.sw9_ex4_string_join import *
 
 
 class Test(TestCase):
