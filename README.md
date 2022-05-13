@@ -43,6 +43,8 @@ by the GIL and will be running at the same time if the architecture allows it.
 The downside is that Python needs to copy the whole memory space for each process. Depending on available resources
 (RAM) this could lead to issues.
 
+![threads_vs_processes](/doc/img/threads_vs_processes.png)
+
 
 ## Duck-Typing 
 The name "Duck Typing" comes from the phrase:
