@@ -1,5 +1,5 @@
 from unittest import TestCase
-from src.indent.pcp_week_5_exercise_8 import Human, b_length
+from src.indent.sw5_ex8_body_length import Human, b_length
 
 
 class Test(TestCase):
