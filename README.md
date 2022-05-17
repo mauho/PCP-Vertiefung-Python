@@ -94,7 +94,7 @@ Many other languages use braces or keywords to mark blocks of code.
 
 It is important that the indentation is the same throughout the code block. It can be defined by the programmer. 
 Often 4 spaces are used, but it needs at least 1 space. 
-For readability it is better if the indentation is the same in all code blocks.
+For readability, it is better if the indentation is the same in all code blocks.
 
 To avoid problems you should configure the tab character in the development environment to the desired number of spaces. 
 A wrong indentation leads to an "IndentationError" and the code is not compiled.
@@ -131,6 +131,83 @@ my_list = [i for i in range(10) if i % 2 == 0]
 ```
 
 ## Yield
+The yield statement is very similar to the return statement. Both return a value of the function. 
+The difference is that when return is called, the function is terminated. 
+The yield statement, on the other hand, only interrupts the function and stores the necessary data so that the function can continue later at the same point.
+
+```python
+def return_example():
+	return "a"
+	return "b"
+
+def yield_example():
+	print("this is printed first")
+	yield "a"
+	print("this is printed second")
+	yield "b"
+
+print(return_example())
+print(return_example())
+# "a"
+# "a"
+
+example = yield_example()
+print(example.next())
+print(example.next())
+# this is printed first
+# a
+# this is printed second
+# b
+```
+### Generator
+A function is a generator function as soon as it contains a yield statement. It can also contain multiple yield statements as well as return statements. 
+
+A generator function returns a generator object. This can be used as an iterator.
+```python
+def fib_generator(end):
+    a = 0
+    b = 1
+    while a < end:
+        yield a
+        a, b = b, a + b
+        
+#  returns generator object 
+generator_object = fib_generator(10)
+```
+#### Generator Expressions
+Another way to create generators is using generator expressions.
+With this you can create anonymous generator functions, which are similar to lambda functions.
+
+The syntax is close to the list comprehension, just with round brackets.
+The generator expressions returns a generator object, which only produces values on command.
+```python
+example_list = [2, 67, 4, 10]
+
+# generator expression
+generator = (x**2 for x in example_list)
+
+print(generator.next())
+# 4
+```
+### Coroutine
+Coroutines are very similar to generators. However, they have additional methods and the yield statement is used differently. 
+Coroutines can produce data like generators. In addition, they can also consume data.
+This is achieved with a different use of the yield statement.
+```python
+def squarer(next_coroutine):
+    try:
+        while True:
+            # receive value from other coroutine
+            number = (yield)
+            square_number = number ** 2
+            # send value to other coroutine
+            next_coroutine.send((number, square_number))
+    except GeneratorExit:
+        print("nothing more to squarer")
+```
+Data can be sent to the coroutine with the send() method. Coroutines only run if the next() or send() method has been called. 
+It can be stopped with the close() method, because otherwise the coroutine run indefinitely.
+
 ## Zen of Python
 [PEP 20 – The Zen of Python](https://peps.python.org/pep-0020/) was created in late August 2004. Tim Peters, a long 
 time Pythoneer, wrote down 19 guiding principles on how to write Python programs.
