@@ -1,21 +1,7 @@
 import threading
 import requests
-import time
 from multiprocessing import Pool
-
-
-def time_measurement(function, *args) -> float:
-    """
-    Takes a function and args. Returns the result of the function (if any) and prints the duration of the execution.
-    :param function: Function to execute
-    :param args: Parameters to pass to the function
-    :return: Result of executed function
-    """
-    start = time.time()
-    result = function(*args)
-    end = time.time()
-    print(f'{function.__name__} took {"%.2f" % (end - start)} seconds')
-    return result
+from src.utils.utils import time_measurement
 
 
 def cpu_bound_countdown(count: int):
