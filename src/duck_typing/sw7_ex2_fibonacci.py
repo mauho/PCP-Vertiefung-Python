@@ -1,4 +1,8 @@
 def fib(n):
+    """
+        returns value of searched fibonacci number
+        :param n: searched fibonacci number
+        """
     if n == 0 or n == 1:
         return n
     else:
@@ -6,6 +10,10 @@ def fib(n):
 
 
 def fib_accumulator(n):
+    """
+        returns value of searched fibonacci number
+        :param n: searched fibonacci number
+        """
     def fib_acc(x, current, previous):
         if x == n:
             return current

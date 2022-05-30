@@ -1,4 +1,3 @@
-# Exercise 8
 class Human:
     def __init__(self, sex, age, bone_length):
         self.sex = sex
