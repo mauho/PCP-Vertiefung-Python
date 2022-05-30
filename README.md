@@ -87,6 +87,40 @@ TryBecomeRich(CryptoMarket())
 TryBecomeRich(Internet())
 # AttributeError: 'Internet' object has no attribute 'lose_money'
 ```
+### Typing
+Python is dynamically typed, so type checking is done only at runtime.
+This means that a type of variable can change. The type of variable is determined by the type of the value assigned to it.
+```python
+
+a = 10
+print(type(a))
+# <class 'int'>
+
+a = "now i’m a string"
+print(type(a))
+# <class 'str'>
+```
+Dynamic typing has various advantages but also disadvantages.
+Advantages:
+- Flexible and easy handling
+- Compact code
+- Inputs do not have to be converted
+- (faster development)
+- Less boilerplate code
+
+Disadvantages:
+- worse performance, because type tests happen at runtime
+- more difficult debugging, since certain errors are only discovered at runtime
+
+There are several ways to improve the performance of a program. One of them is to use Pypy. 
+Pypy is a just-in-time compiler written in Python. 
+A just-in-time compiler translates programs into machine code at runtime. This can be used to increase performance. 
+
+In an example the performance of Pypy was compared with the Python interpreter.  The task was to recursively calculate the 38 Fibonacci number.
+
+![pypy_vs_python](/doc/img/pypy_vs_python.png)
+
+You can see that execution with Pypy is about 14 times faster than with the Python interpreter.
 
 ## Indentation
 In Python indentation is used as a structuring element to tell the Python interpreter that this code belongs together. 
@@ -159,6 +193,10 @@ print(example.next())
 # this is printed second
 # b
 ```
+Yield also exists in other languages such as Kotlin. It behaves very similar to the yield in Python.
+In Kotlin the yield statement is a standard library function and not a key word as it is in Python. 
+
+
 ### Generator
 A function is a generator function as soon as it contains a yield statement. It can also contain multiple yield statements as well as return statements. 
 
@@ -179,17 +217,23 @@ Another way to create generators is using generator expressions.
 With this you can create anonymous generator functions, which are similar to lambda functions.
 
 The syntax is close to the list comprehension, just with round brackets.
+It also supports complex syntaxes like:
+- if statements
+- Multiple nested loops
+- Nested comprehensions
+
 The generator expressions returns a generator object, which only produces values on command.
 ```python
-example_list = [2, 67, 4, 10]
+# normal declaration of a generator
+def squares_generator(length):
+    for n in range(length):
+        yield n ** 2
 
 # generator expression
-generator = (x**2 for x in example_list)
+generator = (n ** 2 for n in range(6))
 
-print(generator.next())
-# 4
 ```
-### Coroutine
+### Yield in Coroutine
 Coroutines are very similar to generators. However, they have additional methods and the yield statement is used differently. 
 Coroutines can produce data like generators. In addition, they can also consume data.
 This is achieved with a different use of the yield statement.
@@ -197,7 +241,7 @@ This is achieved with a different use of the yield statement.
 def squarer(next_coroutine):
     try:
         while True:
-            # receive value from other coroutine
+            # receive value from other coroutine or function
             number = (yield)
             square_number = number ** 2
             # send value to other coroutine
@@ -205,8 +249,11 @@ def squarer(next_coroutine):
     except GeneratorExit:
         print("nothing more to squarer")
 ```
-Data can be sent to the coroutine with the send() method. Coroutines only run if the next() or send() method has been called. 
-It can be stopped with the close() method, because otherwise the coroutine run indefinitely.
+Data can be sent to the coroutine with send() method. Coroutines only run if the next() or send() method has been called.
+It can be stopped with the close() method, because otherwise the coroutine run indefinitely. It's also possible to send an exception with throw().
+This exception is then raised in the coroutine.
+
+
 
 ## Zen of Python
 [PEP 20 – The Zen of Python](https://peps.python.org/pep-0020/) was created in late August 2004. Tim Peters, a long 
