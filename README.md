@@ -47,7 +47,7 @@ The name "Duck Typing" comes from the phrase:
 
 Duck Typing is a concept related to dynamic typing. 
 The type of object is less important than the method and attributes that define it. 
-Duck Typing only checks whether a particular method or attribute is present.
+Duck Typing only checks whether a particular method or attribute is present. If it is not present it throws a AttributeError.
 
 ```python
 class Casino:
@@ -58,14 +58,6 @@ class StockMarked:
     def lose_money(self):
         print("in ten years it will be up again!")
 
-class CryptoMarket:
-    def lose_money(self):
-        print("nooo i lost all my money :(")
-
-class Internet:
-    def lose_money_in_scam(self):
-        print("it was too good to be true!")
-
 class TryBecomeRich:
     def __init__(self, methode):
         methode.lose_money()
@@ -75,44 +67,17 @@ TryBecomeRich(Casino())
 
 TryBecomeRich(StockMarked())
 # in ten years it will be up again!
-
-TryBecomeRich(CryptoMarket())
-# nooo I lost all my money :(
-
-TryBecomeRich(Internet())
-# AttributeError: 'Internet' object has no attribute 'lose_money'
 ```
-#### Typing
+#### Dynamic Typing
 Python is dynamically typed, so type checking is done only at runtime.
 This means that a type of variable can change. The type of variable is determined by the type of the value assigned to it.
-```python
-
-a = 10
-print(type(a))
-# <class 'int'>
-
-a = "now i’m a string"
-print(type(a))
-# <class 'str'>
-```
-Dynamic typing has various advantages but also disadvantages.
-Advantages:
-- Flexible and easy handling
-- Compact code
-- Inputs do not have to be converted
-- (faster development)
-- Less boilerplate code
-
-Disadvantages:
-- worse performance, because type tests happen at runtime
-- more difficult debugging, since certain errors are only discovered at runtime
+Dynamic typing has a big disadvantage. A program has a poor performance because of it.
 
 There are several ways to improve the performance of a program. One of them is to use Pypy. 
 Pypy is a just-in-time compiler written in Python. 
 A just-in-time compiler translates programs into machine code at runtime. This can be used to increase performance. 
 
-In an example the performance of Pypy was compared with the Python interpreter.  The task was to recursively calculate the 38 Fibonacci number.
-
+In an example the performance of Pypy was compared with the Python interpreter. The task was to recursively calculate the 38 Fibonacci number.
 ![pypy_vs_python](./doc/img/pypy_vs_python.png)
 
 You can see that execution with Pypy is about 14 times faster than with the Python interpreter.
@@ -121,27 +86,16 @@ You can see that execution with Pypy is about 14 times faster than with the Pyth
 In Python indentation is used as a structuring element to tell the Python interpreter that this code belongs together. 
 Many other languages use braces or keywords to mark blocks of code.
 
-It is important that the indentation is the same throughout the code block. It can be defined by the programmer. 
-Often 4 spaces are used, but it needs at least 1 space. 
-For readability, it is better if the indentation is the same in all code blocks.
-
-To avoid problems you should configure the tab character in the development environment to the desired number of spaces. 
+It is important that the indentation is the same throughout the code block and at least 1 space.
 A wrong indentation leads to an "IndentationError" and the code is not compiled.
 
 ```python
-def temperature(temperature: int) -> str:
-    if temperature > -273:
-        # indention can be different in each code block
-                if temperature > 35:
-                    return "hot"
-                elif 25 < temperature < 35:
-                        return "warm"
-                elif 15 < temperature < 25:
-                            return "medium"
-                else:
-                                return "cold"
+def speed_check(speed: int) -> str:
+    # indention can be different in each code block
+    if speed > 50:
+            return "to fast"
     else:
-        return "not possible!"
+        return "everything ok"
 ```
 
 ### List Comprehension
@@ -165,32 +119,17 @@ The difference is that when return is called, the function is terminated.
 The yield statement, on the other hand, only interrupts the function and stores the necessary data so that the function can continue later at the same point.
 
 ```python
-def return_example():
-	return "a"
-	return "b"
-
 def yield_example():
-	print("this is printed first")
 	yield "a"
-	print("this is printed second")
+	print("hello")
 	yield "b"
 
-print(return_example())
-print(return_example())
-# "a"
-# "a"
-
 example = yield_example()
-print(example.next())
-print(example.next())
-# this is printed first
-# a
-# this is printed second
-# b
+print(example.next())          # a
+print(example.next())          # hello  # b
 ```
 Yield also exists in other languages such as Kotlin. It behaves very similar to the yield in Python.
 In Kotlin the yield statement is a standard library function and not a key word as it is in Python. 
-
 
 #### Generator
 A function is a generator function as soon as it contains a yield statement. It can also contain multiple yield statements as well as return statements. 
@@ -203,51 +142,23 @@ def fib_generator(end):
     while a < end:
         yield a
         a, b = b, a + b
-        
-#  returns generator object 
-generator_object = fib_generator(10)
 ```
-##### Generator Expressions
-Another way to create generators is using generator expressions.
-With this you can create anonymous generator functions, which are similar to lambda functions.
 
-The syntax is close to the list comprehension, just with round brackets.
-It also supports complex syntaxes like:
-- if statements
-- Multiple nested loops
-- Nested comprehensions
-
-The generator expressions returns a generator object, which only produces values on command.
-```python
-# normal declaration of a generator
-def squares_generator(length):
-    for n in range(length):
-        yield n ** 2
-
-# generator expression
-generator = (n ** 2 for n in range(6))
-
-```
 #### Yield in Coroutine
 Coroutines are very similar to generators. However, they have additional methods and the yield statement is used differently. 
 Coroutines can produce data like generators. In addition, they can also consume data.
 This is achieved with a different use of the yield statement.
 ```python
 def squarer(next_coroutine):
-    try:
         while True:
             # receive value from other coroutine or function
             number = (yield)
             square_number = number ** 2
             # send value to other coroutine
             next_coroutine.send((number, square_number))
-    except GeneratorExit:
-        print("nothing more to squarer")
 ```
 Data can be sent to the coroutine with send() method. Coroutines only run if the next() or send() method has been called.
-It can be stopped with the close() method, because otherwise the coroutine run indefinitely. It's also possible to send an exception with throw().
-This exception is then raised in the coroutine.
-
+It can be stopped with the close() method, because otherwise the coroutine run indefinitely.
 
 
 ### Zen of Python
@@ -284,6 +195,10 @@ Namespaces are one honking great idea -- let's do more of those!
 - Sleek and clean code due to less cluttering 
 
 ### Thomas Conclusion
+- interesting language
+- Dynamic typing takes some time to get used to
+- Easy to start
+- there are interesting ways to improve performance
 
 ### Maurizio Conclusion
 - Fast and fun to code
