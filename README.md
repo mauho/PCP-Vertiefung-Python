@@ -1,20 +1,19 @@
 # PCP-DeepDive-Python
-
 Within the module Programming Concepts and Paradigms (PCP) at HSLU Thomas and Maurizio decided to have an 
 extended look at Python. The programming language shall be analyzed and compared to other languages discussed in the
-module. Furthermore, some previously solved exercise shall also be completed in Python to allow for further comparison.  
+module. Furthermore, some previously solved exercise shall also be completed in Python to allow for further comparison.
+
+### Basics
+Python is an interpreted object-oriented/functional programming language with dynamic typing
 
 ### Python Enhancement Proposals (PEPs)
 In an analog manner to Java Enhancement Proposals (JEP), Python developers maintain a list of possible future 
 enhancements to the Python Language named PEP.
-Some features which we are going to discuss were such a Proposal once. They are going to be marked accordingly.
+Some features which we are going to discuss were such a proposal once. They are going to be marked accordingly.
 
 A Special guest here is [PEP 8 – Style Guide for Python Code](https://peps.python.org/pep-0008/) which deserves some
 special attention. PEP8 is a styleguide on how to write Python code. This leads (if you read warnings and follow the 
 recommendations) to a more uniform look of the written programs in general.
-
-If you write Python Code. It's a worth enabling automatic checks in your IDE of choice. But also to read through the 
-styleguide. It's not a waste of time :-)
 
 ## DeepDive
 Within this Project we are going to shed some light especially on the following topics
@@ -26,27 +25,23 @@ Within this Project we are going to shed some light especially on the following 
 - Yield
 - Zen of Python
 
-## Setup
-This project is built and tested with Python version 3.9.
-As for now no special libraries are used thus, the plain Python installation should suffice to run all the code.
+### Setup
+This project is built and tested with Python version 3.9. As for now only the library "requests" is needed in addition to the plain Python installation. Your IDE will probably
+notify you about this by pointing out this information based on the requirements.txt If this is not the case, please use pip or your favorite package manager to install this dependency.
 
-## Concurrency / Parallelism
-Python and Ruby (and probably some otters) use a Mechanism called **Global Interpreter Lock (GIL)**. 
+### Concurrency / Parallelism
+Python and Ruby (and probably some otters?) use a Mechanism called **Global Interpreter Lock (GIL)**. 
 This mechanism is used to synchronize the execution of threads so that there is only one thread (per process) active at 
-a given time. Even if there are multiple CPU cores available only one thread will be active.
+a given time. Even if there are multiple CPU cores available only one thread will be active. **All threads share the same memory space!** 
+Threads are still useful if a program has to deal with a lot of IO which is considered slow. While a thread is waiting for IO to complete, another thread can do it's work.
 
-This is useful if a program has to deal with a lot of IO which is considered very slow and while a thread is waiting.
-for IO to complete, another thread can to it's work. All threads share the same memory space.
+On the other hand there is true parallelism by spawning multiple processes (instead of threads). These are not affected by the GIL and will be running at the same time if the architecture allows it.
+The downside is that Python needs to copy the whole memory space for each process and a separate interpreter running the code. Depending on available resources (RAM) this could lead to issues.
 
-On the other hand there is true parallelism by spawning multiple processes (instead of threads). These are not affected
-by the GIL and will be running at the same time if the architecture allows it.
-The downside is that Python needs to copy the whole memory space for each process. Depending on available resources
-(RAM) this could lead to issues.
-
-![threads_vs_processes](/doc/img/threads_vs_processes.png)
+![threads_vs_processes](./doc/img/threads_vs_processes.png)
 
 
-## Duck-Typing 
+### Duck-Typing 
 The name "Duck Typing" comes from the phrase:
 "If it looks like a duck and quacks like a duck, it's a duck".
 
@@ -87,7 +82,7 @@ TryBecomeRich(CryptoMarket())
 TryBecomeRich(Internet())
 # AttributeError: 'Internet' object has no attribute 'lose_money'
 ```
-### Typing
+#### Typing
 Python is dynamically typed, so type checking is done only at runtime.
 This means that a type of variable can change. The type of variable is determined by the type of the value assigned to it.
 ```python
@@ -118,11 +113,11 @@ A just-in-time compiler translates programs into machine code at runtime. This c
 
 In an example the performance of Pypy was compared with the Python interpreter.  The task was to recursively calculate the 38 Fibonacci number.
 
-![pypy_vs_python](/doc/img/pypy_vs_python.png)
+![pypy_vs_python](./doc/img/pypy_vs_python.png)
 
 You can see that execution with Pypy is about 14 times faster than with the Python interpreter.
 
-## Indentation
+### Indentation
 In Python indentation is used as a structuring element to tell the Python interpreter that this code belongs together. 
 Many other languages use braces or keywords to mark blocks of code.
 
@@ -149,7 +144,7 @@ def temperature(temperature: int) -> str:
         return "not possible!"
 ```
 
-## List Comprehension
+### List Comprehension
 PEP 202 – List Comprehensions was created on July, 13 2000 for Python 2.0. 
 The idea was/is to allow conditional construction of list literals with if statements and loops.
 
@@ -164,7 +159,7 @@ for i in range(10):
 my_list = [i for i in range(10) if i % 2 == 0]
 ```
 
-## Yield
+### Yield
 The yield statement is very similar to the return statement. Both return a value of the function. 
 The difference is that when return is called, the function is terminated. 
 The yield statement, on the other hand, only interrupts the function and stores the necessary data so that the function can continue later at the same point.
@@ -197,7 +192,7 @@ Yield also exists in other languages such as Kotlin. It behaves very similar to 
 In Kotlin the yield statement is a standard library function and not a key word as it is in Python. 
 
 
-### Generator
+#### Generator
 A function is a generator function as soon as it contains a yield statement. It can also contain multiple yield statements as well as return statements. 
 
 A generator function returns a generator object. This can be used as an iterator.
@@ -212,7 +207,7 @@ def fib_generator(end):
 #  returns generator object 
 generator_object = fib_generator(10)
 ```
-#### Generator Expressions
+##### Generator Expressions
 Another way to create generators is using generator expressions.
 With this you can create anonymous generator functions, which are similar to lambda functions.
 
@@ -233,7 +228,7 @@ def squares_generator(length):
 generator = (n ** 2 for n in range(6))
 
 ```
-### Yield in Coroutine
+#### Yield in Coroutine
 Coroutines are very similar to generators. However, they have additional methods and the yield statement is used differently. 
 Coroutines can produce data like generators. In addition, they can also consume data.
 This is achieved with a different use of the yield statement.
@@ -255,10 +250,10 @@ This exception is then raised in the coroutine.
 
 
 
-## Zen of Python
+### Zen of Python
 [PEP 20 – The Zen of Python](https://peps.python.org/pep-0020/) was created in late August 2004. Tim Peters, a long 
 time Pythoneer, wrote down 19 guiding principles on how to write Python programs.
-Those principles remind us of [Clean Code](https://de.wikipedia.org/wiki/Clean_Code) by Robert C. Martin.
+Those principles remind us (Thomas/Maurizio) of [Clean Code](https://de.wikipedia.org/wiki/Clean_Code) by Robert C. Martin. 
 
 ```Beautiful is better than ugly.
 Explicit is better than implicit.
@@ -280,3 +275,18 @@ If the implementation is hard to explain, it's a bad idea.
 If the implementation is easy to explain, it may be a good idea.
 Namespaces are one honking great idea -- let's do more of those!
 ```
+
+## Team Conclusion
+- Working in a Team of two is quite ok
+- Fast results
+- Small projects YES! Big projects... maybe less so :)
+- Slow compared to other (compiled) languages -> use pypy or other speed-up possibilities  
+- Sleek and clean code due to less cluttering 
+
+### Thomas Conclusion
+
+### Maurizio Conclusion
+- Fast and fun to code
+- easy to learn / hard to master
+- good for prototyping and small programs
+- advantages in Machine Learning due to the possibility to use Google Colab
